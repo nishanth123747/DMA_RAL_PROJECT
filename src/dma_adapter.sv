@@ -3,7 +3,6 @@ class dma_adapter extends uvm_reg_adapter;
 
   function new(string name="dma_adapter");
     super.new(name);
-    supports_byte_enable = 0;
   endfunction
 
   function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw);
@@ -32,5 +31,4 @@ class dma_adapter extends uvm_reg_adapter;
     rw.status = UVM_IS_OK;
   endfunction
 endclass
-
 
