@@ -2,7 +2,7 @@
 
  `include "dma_interface.sv"
 `include "dma_pkg.sv"
-'include "dma_design.sv"
+`include "dma_design.sv"
 import uvm_pkg::*;
 import dma_pkg::*;
 
