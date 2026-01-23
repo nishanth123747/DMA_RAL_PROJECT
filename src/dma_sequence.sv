@@ -235,4 +235,3 @@ mir = regmodel.mem_addr.get_mirrored_value();
   endtask
 
 endclass
-
