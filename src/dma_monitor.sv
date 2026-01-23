@@ -30,11 +30,11 @@ class dma_monitor extends uvm_monitor;
   		 tx.wdata = vif.mon_cb.wdata;
  		 tx.rdata = vif.mon_cb.rdata;
        // tx.print();
-//         `uvm_info(get_type_name(),
-//                   $sformatf("MONITOR rd_en = %0d wr_en=%0d addr=0x%08h wdata=0x%08h rdata=0x%08h",tx.rd_en,tx.wr_en,
-//                     tx.addr, tx.wdata, tx.rdata),
-//           UVM_LOW)
-//         $display("writing into port %0t",$time);
+        `uvm_info(get_type_name(),
+                  $sformatf("MONITOR rd_en = %0d wr_en=%0d addr=0x%08h wdata=0x%08h rdata=0x%08h",tx.rd_en,tx.wr_en,
+                    tx.addr, tx.wdata, tx.rdata),
+          UVM_LOW)
+        $display("writing into port %0t",$time);
         ap.write(tx);
         @(vif.mon_cb);
       end
