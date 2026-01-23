@@ -68,4 +68,3 @@ class dma_reg_test extends dma_model_base_test;
   endtask
 
 endclass
-
