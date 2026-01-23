@@ -1,8 +1,8 @@
 
-
  `include "dma_interface.sv"
 `include "dma_pkg.sv"
 `include "dma_design.sv"
+
 import uvm_pkg::*;
 import dma_pkg::*;
 
@@ -22,7 +22,7 @@ module tb;
     uvm_config_db#(virtual dma_reg_if)::set(null, "*", "vif", vif);
 
     rst_n = 0;
-    #20;
+    #10;
     rst_n = 1;
   end
 
@@ -36,5 +36,7 @@ module tb;
   end
 
 endmodule
+
+
 
 
