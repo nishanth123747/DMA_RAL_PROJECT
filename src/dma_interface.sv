@@ -25,4 +25,3 @@ modport mon (clocking mon_cb, input clk, rst_n);
 
 
 endinterface
-
