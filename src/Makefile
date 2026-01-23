@@ -1,10 +1,7 @@
-# -------------------------------------------------
-# Questa setup
-# -------------------------------------------------
 QUESTA := /home/share/questa.csh
 SHELL  := /bin/csh
 
-TOP := top
+TOP := tb
 
 .ONESHELL:
 
@@ -24,7 +21,7 @@ compile:
 	source $(QUESTA)
 	vlib work
 	vmap work work
-	vlog -sv +acc dma_top.sv
+	vlog -sv dma_top.sv
 
 # -------------------------------------------------
 # Simulate (no coverage)
@@ -38,21 +35,33 @@ simulate:
 # -------------------------------------------------
 # Simulate with coverage
 # -------------------------------------------------
-cov:
+main:
 	source $(QUESTA)
-	vsim -coverage -c work.$(TOP) \
+	make clean
+	vlib work
+	vmap work work
+	vlog -sv +acc +cover +fcover -l dma_top.log dma_top.sv
+	vsim -vopt work.$(TOP) \
 		-voptargs="+acc=npr" \
 		-assertdebug \
 		-l simulation.log \
-		-do "run -all; coverage save coverage.ucdb; exit"
+		-coverage \
+		-c \
+		-do "coverage save -onexit -assert -directive -cvg -codeAll coverage.ucdb; run -all; exit"
+	vcover report -html coverage.ucdb -htmldir covReport -details
+
+# -------------------------------------------------
+# Coverage read
+# -------------------------------------------------
+read:
+	source $(QUESTA)
 	vcover report -details coverage.ucdb
-	vcover report -html coverage.ucdb -htmldir covReport
 
 # -------------------------------------------------
 # View coverage
 # -------------------------------------------------
 view:
-	firefox covReport/index.html &
+	firefox ./covReport/index.html &
 
 # -------------------------------------------------
 # View log
@@ -64,5 +73,5 @@ log:
 # Clean
 # -------------------------------------------------
 clean:
-	rm -rf work transcript *.log *.ucdb covReport
+	rm -rf work transcript *.log *.ucdb covReport wave.vcd
 	clear
