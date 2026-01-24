@@ -21,8 +21,8 @@ class dma_reg_block extends uvm_reg_block;
     //coverage
     uvm_reg::include_coverage("*", UVM_CVR_ALL);
     //backdoor
-    //add_hdl_path("DUT","RTL");
-    regmodel.add_hdl_path("uvm_test_top.env.DUT","RTL"); 
+    add_hdl_path("DUT","RTL");
+   // regmodel.add_hdl_path("uvm_test_top.env.DUT","RTL"); 
     intr  = intr_reg  ::type_id::create("intr");
     ctrl = ctrl_reg ::type_id::create("ctrl");
     io_addr  = io_addr_reg::type_id::create("io_addr");
