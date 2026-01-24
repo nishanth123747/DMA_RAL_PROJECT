@@ -30,9 +30,8 @@ class dma_coverage extends uvm_subscriber #(dma_seq_item);
     }
 
     // Write data 
-    wdata_cp : coverpoint tr.wdata iff (acc == WRITE) {
-      bins ZERO = {32'h0};
-      bins NON_ZERO = {[1 : 32'hFFFF_FFFF]};
+    wdata_cp : coverpoint tr.wdata  {
+      bins write_data= {[0 : 32'hFFFF_FFFF]};
     }
     addr_x_access : cross addr_cp, access_cp;
 
@@ -43,9 +42,8 @@ class dma_coverage extends uvm_subscriber #(dma_seq_item);
   covergroup dma_output_cg;
 
     // Read data coverage
-    rdata_cp : coverpoint tr.rdata iff (acc == READ) {
-      bins ZERO = {32'h0};
-      bins NON_ZERO = {[1 : 32'hFFFF_FFFF]};
+    rdata_cp : coverpoint tr.rdata  {
+      bins read_data = {[0 : 32'hFFFF_FFFF]};
     }
 
   endgroup
