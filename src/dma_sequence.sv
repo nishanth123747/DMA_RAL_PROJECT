@@ -171,16 +171,13 @@ class ctrl_reg_seq extends uvm_sequence;
 
   task body();
     uvm_status_e   status;
-    uvm_reg_data_t des, mir, i
+    uvm_reg_data_t des, mir;
     bit [31:0] wdata,rdata;
 
 
     repeat (5) begin
       wdata = $urandom;
     end
-      // ----------------------------------
-      // Randomize CTRL register legally
-      // ----------------------------------
 
     regmodel.ctrl.write(status, wdata);
 
