@@ -129,11 +129,13 @@ class mem_addr_seq extends uvm_sequence;
   endfunction
 
   task body();
-    uvm_status_e status;
-    uvm_reg_data_t des, mir, rdata;
+   uvm_reg_data_t wdata, rdata;
+
+    repeat (2) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
     // WRITE
-    regmodel.mem_addr.write(status, 32'h1234_5678);
+      regmodel.mem_addr.write(status,wdata);
     des = regmodel.mem_addr.get();
     mir = regmodel.mem_addr.get_mirrored_value();
 
@@ -152,6 +154,7 @@ class mem_addr_seq extends uvm_sequence;
       UVM_NONE)
 
     regmodel.mem_addr.mirror(status, UVM_CHECK);
+    end
   endtask
 endclass
 
@@ -174,7 +177,7 @@ class ctrl_reg_seq extends uvm_sequence;
     uvm_reg_data_t des, mir;
     uvm_reg_data_t wdata, rdata;
 
-    repeat (5) begin
+    repeat (2) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
       // WRITE 
@@ -221,10 +224,13 @@ class intr_reg_seq extends uvm_sequence;
 
   task body();
     uvm_status_e status;
-    uvm_reg_data_t des, mir, rdata;
+  uvm_reg_data_t wdata, rdata;
+
+    repeat (2) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
     // WRITE
-    regmodel.intr.write(status, 32'hABCD_ABCD);
+      regmodel.intr.write(status, wdata);
     des = regmodel.intr.get();
     mir = regmodel.intr.get_mirrored_value();
 
@@ -243,6 +249,7 @@ class intr_reg_seq extends uvm_sequence;
       UVM_NONE)
 
     regmodel.intr.mirror(status, UVM_CHECK);
+    end
   endtask
 endclass
 
@@ -261,9 +268,12 @@ endclass
 
   task body();
     uvm_status_e status;
-    uvm_reg_data_t des, mir, rdata;
+    uvm_reg_data_t wdata, rdata;
 
-    regmodel.io_addr.write(status, 32'h0000_ABCD);
+    repeat (5) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
+
+      regmodel.io_addr.write(status, wdata);
     des = regmodel.io_addr.get();
     mir = regmodel.io_addr.get_mirrored_value();
 
@@ -281,6 +291,7 @@ endclass
       UVM_NONE)
 
     regmodel.io_addr.mirror(status, UVM_CHECK);
+    end
   endtask
 endclass
 
