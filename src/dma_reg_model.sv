@@ -8,12 +8,12 @@ class intr_reg extends uvm_reg;
 covergroup intr_cov;
   option.per_instance = 1;
 
-  coverpoint intr_status.value {
-    bins in_status = {0,1};
+  coverpoint intr_status.value[0] {
+    bins status = {0,1};
   }
 
   coverpoint intr_mask.value {
-    bins it_mask  = {[16'h0000 : 16'hFFFF]};
+    bins mask= {[16'h0000 : 16'hFFFF]};
   }
 
 endgroup
@@ -76,7 +76,9 @@ class ctrl_reg extends uvm_reg;
 
 		coverpoint w_count.value[15:8]
 		{
-			bins low = {[0:255]};
+			bins lower = {[0:63]};
+			bins mid  = {[64:127]};
+			bins high  = {[128:255]};
 		}
 
 		coverpoint io_mem.value[16]
@@ -123,8 +125,8 @@ class ctrl_reg extends uvm_reg;
   endfunction
   
 endclass
-///--------------------------------------------------------------------------
 
+//==========================================================================
 class io_addr_reg extends uvm_reg;
   `uvm_object_utils(io_addr_reg)
 
@@ -184,9 +186,27 @@ class io_addr_reg extends uvm_reg;
   virtual function void sample_values();
     super.sample_values();
       io_addr_cov.sample();
-  endfunction  
+  endfunction
+  
+  
 endclass
-//-------------------------------------------------------------------------------
+
+class mem_addr_reg extends uvm_reg;
+  `uvm_object_utils(mem_addr_reg)
+
+  uvm_reg_field mem_addr;
+
+  function new(string name="mem_addr_reg");
+    super.new(name, 32, UVM_NO_COVERAGE);
+  endfunction
+
+  function void build();
+    mem_addr = uvm_reg_field::type_id::create("mem_addr");
+    mem_addr.configure(this, 32, 0, "RW", 0, 0, 1, 1, 0);
+  endfunction
+endclass
+
+
 class extra_info_reg extends uvm_reg;
   `uvm_object_utils(extra_info_reg)
 
