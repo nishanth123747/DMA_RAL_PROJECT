@@ -76,8 +76,7 @@ class ctrl_reg extends uvm_reg;
 
 		coverpoint w_count.value[15:8]
 		{
-			bins lower = {[0:63]};
-			bins mid  = {[64:127]};
+			bins lower = {[0:127]};
 			bins high  = {[128:255]};
 		}
 
