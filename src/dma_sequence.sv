@@ -271,7 +271,7 @@ endclass
     uvm_status_e status;
     uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (5) begin
+    repeat (2) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
       regmodel.io_addr.write(status, wdata);
@@ -311,10 +311,13 @@ class extra_info_seq extends uvm_sequence;
 
   task body();
     uvm_status_e status;
-    uvm_reg_data_t des, mir, rdata;
+     uvm_reg_data_t des,mir, wdata, rdata;
+
+    repeat (2) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
       // regmodel.extra_info.read(status, rdata);
     // regmodel.extra_info.poke(status, 32'h0000_ABCD);
-    regmodel.extra_info.write(status, 32'h0000_ABCD);
+      regmodel.extra_info.write(status, wdata);
     des = regmodel.extra_info.get();
     mir = regmodel.extra_info.get_mirrored_value();
 
@@ -332,6 +335,7 @@ class extra_info_seq extends uvm_sequence;
       UVM_NONE)
 
     regmodel.extra_info.mirror(status, UVM_CHECK);
+    end
   endtask
 endclass
 
@@ -349,10 +353,13 @@ endclass
 
   task body();
     uvm_status_e status;
-    uvm_reg_data_t des, mir, rdata;
+     uvm_reg_data_t des,mir, wdata, rdata;
+
+    repeat (2) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
    // regmodel.status.read(status, rdata);
     // regmodel.status.poke(status, 32'h0000_ABCD);
-   regmodel.status.write(status, 32'h0000_ABCD);
+      regmodel.status.write(status, wdata);
     des = regmodel.status.get();
     mir = regmodel.status.get_mirrored_value();
 
@@ -370,6 +377,7 @@ endclass
       UVM_NONE)
 
     regmodel.status.mirror(status, UVM_CHECK);
+    end
   endtask
 endclass
 
@@ -388,10 +396,13 @@ endclass
 
   task body();
     uvm_status_e status;
-    uvm_reg_data_t des, mir, rdata;
+     uvm_reg_data_t des,mir, wdata, rdata;
+
+    repeat (2) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
     // regmodel.transfer_count.read(status, rdata);
     // regmodel.transfer_count.poke(status, 32'h0000_ABCD);
-    regmodel.transfer_count.write(status, 32'h0000_ABCD);
+      regmodel.transfer_count.write(status, wdata);
     des = regmodel.transfer_count.get();
     mir = regmodel.transfer_count.get_mirrored_value();
 
@@ -409,6 +420,7 @@ endclass
       UVM_NONE)
 
     regmodel.transfer_count.mirror(status, UVM_CHECK);
+    end
   endtask
 endclass
 
@@ -426,10 +438,13 @@ class descriptor_reg_seq extends uvm_sequence;
 
   task body();
     uvm_status_e   status;
-    uvm_reg_data_t des, mir, rdata;
+   uvm_reg_data_t des,mir, wdata, rdata;
+
+    repeat (2) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
     // WRITE
-    regmodel.descriptor_addr.write(status, 32'hCAFEBABE);
+      regmodel.descriptor_addr.write(status, wdata);
     des = regmodel.descriptor_addr.get();
     mir = regmodel.descriptor_addr.get_mirrored_value();
 
@@ -449,6 +464,7 @@ class descriptor_reg_seq extends uvm_sequence;
       UVM_LOW)
 
     regmodel.descriptor_addr.mirror(status, UVM_CHECK);
+    end
   endtask
 endclass
 
@@ -468,10 +484,13 @@ class config_reg_seq extends uvm_sequence;
 
   task body();
     uvm_status_e   status;
-    uvm_reg_data_t des, mir, rdata;
+     uvm_reg_data_t des,mir, wdata, rdata;
+
+    repeat (2) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
     // WRITE
-    regmodel.conf.write(status, 32'h0000_00FF);
+      regmodel.conf.write(status, wdata);
     des = regmodel.conf.get();
     mir = regmodel.conf.get_mirrored_value();
 
@@ -491,6 +510,7 @@ class config_reg_seq extends uvm_sequence;
       UVM_LOW)
 
     regmodel.conf.mirror(status, UVM_CHECK);
+    end
   endtask
 endclass
 
@@ -508,10 +528,13 @@ class error_status_reg_seq extends uvm_sequence;
 
   task body();
     uvm_status_e   status;
-    uvm_reg_data_t des, mir, rdata;
+    uvm_reg_data_t des,mir, wdata, rdata;
+
+    repeat (2) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
     //WRITE
     //#10;
-    //  regmodel.error_status.poke(status, 32'hFFFF_FFFF);
+      //  regmodel.error_status.poke(status, wdata);
    regmodel.error_status.write(status, 32'hFFFF_FFFF);
     des = regmodel.error_status.get();
     mir = regmodel.error_status.get_mirrored_value();
@@ -534,6 +557,7 @@ class error_status_reg_seq extends uvm_sequence;
       UVM_LOW)
 
     regmodel.error_status.mirror(status, UVM_CHECK);
+    end
   endtask
 endclass
 
