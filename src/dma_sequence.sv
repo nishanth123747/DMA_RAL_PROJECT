@@ -1,3 +1,121 @@
+class dma_reset_seq extends uvm_sequence;
+  `uvm_object_utils(dma_reset_seq)
+
+  dma_reg_block regbk;
+
+  function new(string name="dma_reset_seq");
+    super.new(name);
+  endfunction
+
+  task body();
+    uvm_status_e status;
+
+    `uvm_info(get_type_name(),
+      "<------------ RESET SEQUENCE STARTED ----------->",
+      UVM_MEDIUM)
+
+    // Apply RAL mirror reset
+    regbk.reset();
+
+    //----------------------------------
+    // INTR
+    //----------------------------------
+    regbk.intr.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("INTR reset value = 0x%08h",
+        regbk.intr.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    //----------------------------------
+    // CTRL
+    //----------------------------------
+    regbk.ctrl.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("CTRL reset value = 0x%08h",
+        regbk.ctrl.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    //----------------------------------
+    // IO_ADDR
+    //----------------------------------
+    regbk.io_addr.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("IO_ADDR reset value = 0x%08h",
+        regbk.io_addr.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    //----------------------------------
+    // MEM_ADDR
+    //----------------------------------
+    regbk.mem_addr.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("MEM_ADDR reset value = 0x%08h",
+        regbk.mem_addr.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    //----------------------------------
+    // EXTRA_INFO
+    //----------------------------------
+    regbk.extra_info.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("EXTRA_INFO reset value = 0x%08h",
+        regbk.extra_info.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    //----------------------------------
+    // STATUS
+    //----------------------------------
+    regbk.status.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("STATUS reset value = 0x%08h",
+        regbk.status.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    //----------------------------------
+    // TRANSFER_COUNT
+    //----------------------------------
+    regbk.transfer_count.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("TRANSFER_COUNT reset value = 0x%08h",
+        regbk.transfer_count.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    //----------------------------------
+    // DESCRIPTOR_ADDR
+    //----------------------------------
+    regbk.descriptor_addr.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("DESCRIPTOR_ADDR reset value = 0x%08h",
+        regbk.descriptor_addr.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    //----------------------------------
+    // CONFIG
+    //----------------------------------
+    regbk.conf.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("CONFIG reset value = 0x%08h",
+        regbk.conf.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    //----------------------------------
+    // ERROR_STATUS
+    //----------------------------------
+    regbk.error_status.mirror(status, UVM_CHECK);
+    `uvm_info(get_type_name(),
+      $sformatf("ERROR_STATUS reset value = 0x%08h",
+        regbk.error_status.get_mirrored_value()),
+      UVM_MEDIUM)
+
+    `uvm_info(get_type_name(),
+      "<------------ RESET SEQUENCE ENDED ----------->",
+      UVM_MEDIUM)
+
+  endtask
+endclass
+
+
+
 //-----------------------------------------
 //MEM_ADDR
 //--------------------------------------------------
@@ -56,7 +174,8 @@ class ctrl_reg_seq extends uvm_sequence;
     uvm_reg_data_t des, mir, rdata;
 
     // WRITE
-    regmodel.ctrl.write(status, 32'h0000_ABCD);
+    // regmodel.ctrl.write(status, 32'h0000_ABCD);//self clear to 1 so dut wil get abcc
+    regmodel.ctrl.write(status, 32'h0000_AAAA);
     des = regmodel.ctrl.get();
     mir = regmodel.ctrl.get_mirrored_value();
 
@@ -96,7 +215,7 @@ class intr_reg_seq extends uvm_sequence;
     uvm_reg_data_t des, mir, rdata;
 
     // WRITE
-    regmodel.intr.write(status, 32'h0000_ABCD);
+    regmodel.intr.write(status, 32'hABCD_ABCD);
     des = regmodel.intr.get();
     mir = regmodel.intr.get_mirrored_value();
 
@@ -143,7 +262,7 @@ endclass
       $sformatf("IO_ADDR WRITE: DES=0x%08h MIR=0x%08h", des, mir),
       UVM_NONE)
 
-    regmodel.io_addr.read(status, rdata);
+    regmodel.io_addr.read(status, rdata,UVM_BACKDOOR);
     des = regmodel.io_addr.get();
     mir = regmodel.io_addr.get_mirrored_value();
 
@@ -172,7 +291,8 @@ class extra_info_seq extends uvm_sequence;
   task body();
     uvm_status_e status;
     uvm_reg_data_t des, mir, rdata;
-
+      // regmodel.extra_info.read(status, rdata);
+    // regmodel.extra_info.poke(status, 32'h0000_ABCD);
     regmodel.extra_info.write(status, 32'h0000_ABCD);
     des = regmodel.extra_info.get();
     mir = regmodel.extra_info.get_mirrored_value();
@@ -181,7 +301,7 @@ class extra_info_seq extends uvm_sequence;
       $sformatf("EXTRA_INFO WRITE: DES=0x%08h MIR=0x%08h", des, mir),
       UVM_NONE)
 
-    regmodel.extra_info.read(status, rdata);
+    regmodel.extra_info.read(status, rdata,UVM_BACKDOOR);
     des = regmodel.extra_info.get();
     mir = regmodel.extra_info.get_mirrored_value();
 
@@ -209,16 +329,17 @@ endclass
   task body();
     uvm_status_e status;
     uvm_reg_data_t des, mir, rdata;
-
-    regmodel.status.write(status, 32'h0000_ABCD);
+   // regmodel.status.read(status, rdata);
+    // regmodel.status.poke(status, 32'h0000_ABCD);
+   regmodel.status.write(status, 32'h0000_ABCD);
     des = regmodel.status.get();
     mir = regmodel.status.get_mirrored_value();
 
     `uvm_info(get_type_name(),
       $sformatf("STATUS WRITE: DES=0x%08h MIR=0x%08h", des, mir),
       UVM_NONE)
-
-    regmodel.status.read(status, rdata);
+    //regmodel.status.read(status, rdata,UVM_FRONTDOOR);
+    regmodel.status.read(status, rdata,UVM_BACKDOOR);
     des = regmodel.status.get();
     mir = regmodel.status.get_mirrored_value();
 
@@ -247,7 +368,8 @@ endclass
   task body();
     uvm_status_e status;
     uvm_reg_data_t des, mir, rdata;
-
+    // regmodel.transfer_count.read(status, rdata);
+    // regmodel.transfer_count.poke(status, 32'h0000_ABCD);
     regmodel.transfer_count.write(status, 32'h0000_ABCD);
     des = regmodel.transfer_count.get();
     mir = regmodel.transfer_count.get_mirrored_value();
@@ -256,7 +378,7 @@ endclass
               $sformatf("TRANSFER_COUNT WRITE: DES=0x%08h MIR=0x%08h", des, mir),
       UVM_NONE)
 
-    regmodel.transfer_count.read(status, rdata);
+    regmodel.transfer_count.read(status, rdata,UVM_BACKDOOR);
     des = regmodel.transfer_count.get();
     mir = regmodel.transfer_count.get_mirrored_value();
 
@@ -296,7 +418,7 @@ class descriptor_reg_seq extends uvm_sequence;
       UVM_LOW)
 
     // READ
-    regmodel.descriptor_addr.read(status, rdata);
+    regmodel.descriptor_addr.read(status, rdata,UVM_BACKDOOR);
     des = regmodel.descriptor_addr.get();
     mir = regmodel.descriptor_addr.get_mirrored_value();
 
@@ -338,7 +460,7 @@ class config_reg_seq extends uvm_sequence;
       UVM_LOW)
 
     // READ
-    regmodel.conf.read(status, rdata);
+    regmodel.conf.read(status, rdata,UVM_BACKDOOR);
     des = regmodel.conf.get();
     mir = regmodel.conf.get_mirrored_value();
 
@@ -366,9 +488,22 @@ class error_status_reg_seq extends uvm_sequence;
   task body();
     uvm_status_e   status;
     uvm_reg_data_t des, mir, rdata;
+    //WRITE
+    //#10;
+    //  regmodel.error_status.poke(status, 32'hFFFF_FFFF);
+   regmodel.error_status.write(status, 32'hFFFF_FFFF);
+    des = regmodel.error_status.get();
+    mir = regmodel.error_status.get_mirrored_value();
+
+    `uvm_info(get_type_name(),
+              $sformatf("ERROR_STATUS WRITE: DES=0x%08h MIR=0x%08h",
+                des, mir),
+      UVM_LOW)
+
+
 
     // READ
-    regmodel.error_status.read(status, rdata);
+    regmodel.error_status.read(status, rdata,UVM_BACKDOOR);
     des = regmodel.error_status.get();
     mir = regmodel.error_status.get_mirrored_value();
 
@@ -382,9 +517,10 @@ class error_status_reg_seq extends uvm_sequence;
 endclass
 
 
+
 class dma_regression_seq extends uvm_sequence;
   `uvm_object_utils(dma_regression_seq)
-
+  dma_reset_seq              reset_seq;
   mem_addr_seq               mem_seq;
   ctrl_reg_seq               ct_seq;
   intr_reg_seq               int_seq;
@@ -403,7 +539,7 @@ class dma_regression_seq extends uvm_sequence;
   endfunction
 
   virtual task body();
-
+    reset_seq= dma_reset_seq::type_id::create("reset_seq");
     mem_seq   = mem_addr_seq::type_id::create("mem_seq");
     ct_seq    = ctrl_reg_seq::type_id::create("ct_seq");
     int_seq   = intr_reg_seq::type_id::create("int_seq");
@@ -414,7 +550,8 @@ class dma_regression_seq extends uvm_sequence;
     des_seq   = descriptor_reg_seq::type_id::create("des_seq");
     con_seq   = config_reg_seq::type_id::create("con_seq");
     err_seq   = error_status_reg_seq::type_id::create("err_seq");
-
+    
+    reset_seq.regbk = regbk;
     mem_seq.regmodel   = regbk;
     ct_seq.regmodel    = regbk;
     int_seq.regmodel   = regbk;
@@ -425,7 +562,8 @@ class dma_regression_seq extends uvm_sequence;
     des_seq.regmodel   = regbk;
     con_seq.regmodel   = regbk;
     err_seq.regmodel   = regbk;
-
+    
+    reset_seq.start(m_sequencer);
     mem_seq.start(m_sequencer);
     ct_seq.start(m_sequencer);
     int_seq.start(m_sequencer);
@@ -439,3 +577,4 @@ class dma_regression_seq extends uvm_sequence;
 
   endtask
 endclass
+ 
