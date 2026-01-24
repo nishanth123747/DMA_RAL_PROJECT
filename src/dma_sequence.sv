@@ -271,7 +271,7 @@ endclass
     uvm_status_e status;
     uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (2) begin
+    repeat (5) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
       regmodel.io_addr.write(status, wdata);
