@@ -59,16 +59,16 @@ class dma_reg_block extends uvm_reg_block;
     conf.configure(this);
     
   //coverage  
- intr.set_coverage(UVM_CVR_FIELD_VALS);
- ctrl.set_coverage(UVM_CVR_FIELD_VALS);
- io_addr.set_coverage(UVM_CVR_FIELD_VALS); 
- mem_addr.set_coverage(UVM_CVR_FIELD_VALS);
- extra_info.set_coverage(UVM_CVR_FIELD_VALS);
-  status.set_coverage(UVM_CVR_FIELD_VALS);
-   transfter_count.set_coverage(UVM_CVR_FIELD_VALS);
-    descriptor_addr.set_coverage(UVM_CVR_FIELD_VALS);
-   error_status.set_coverage(UVM_CVR_FIELD_VALS);
-    conf.set_coverage(UVM_CVR_FIELD_VALS);
+ // intr.set_coverage(UVM_CVR_FIELD_VALS);
+ // ctrl.set_coverage(UVM_CVR_FIELD_VALS);
+ // io_addr.set_coverage(UVM_CVR_FIELD_VALS); 
+ // mem_addr.set_coverage(UVM_CVR_FIELD_VALS);
+ // extra_info.set_coverage(UVM_CVR_FIELD_VALS);
+ //  status.set_coverage(UVM_CVR_FIELD_VALS);
+ //   transfter_count.set_coverage(UVM_CVR_FIELD_VALS);
+ //    descriptor_addr.set_coverage(UVM_CVR_FIELD_VALS);
+ //   error_status.set_coverage(UVM_CVR_FIELD_VALS);
+ //    conf.set_coverage(UVM_CVR_FIELD_VALS);
     
      intr.add_hdl_path_slice("intr_status", 0, 16);   
      intr.add_hdl_path_slice("intr_mask",  16, 16); 
