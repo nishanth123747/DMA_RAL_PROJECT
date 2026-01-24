@@ -262,7 +262,7 @@ endclass
       $sformatf("IO_ADDR WRITE: DES=0x%08h MIR=0x%08h", des, mir),
       UVM_NONE)
 
-    regmodel.io_addr.read(status, rdata,UVM_BACKDOOR);
+    regmodel.io_addr.read(status, rdata);
     des = regmodel.io_addr.get();
     mir = regmodel.io_addr.get_mirrored_value();
 
@@ -301,7 +301,7 @@ class extra_info_seq extends uvm_sequence;
       $sformatf("EXTRA_INFO WRITE: DES=0x%08h MIR=0x%08h", des, mir),
       UVM_NONE)
 
-    regmodel.extra_info.read(status, rdata,UVM_BACKDOOR);
+    regmodel.extra_info.read(status, rdata);
     des = regmodel.extra_info.get();
     mir = regmodel.extra_info.get_mirrored_value();
 
@@ -339,7 +339,7 @@ endclass
       $sformatf("STATUS WRITE: DES=0x%08h MIR=0x%08h", des, mir),
       UVM_NONE)
     //regmodel.status.read(status, rdata,UVM_FRONTDOOR);
-    regmodel.status.read(status, rdata,UVM_BACKDOOR);
+    regmodel.status.read(status, rdata);
     des = regmodel.status.get();
     mir = regmodel.status.get_mirrored_value();
 
@@ -378,7 +378,7 @@ endclass
               $sformatf("TRANSFER_COUNT WRITE: DES=0x%08h MIR=0x%08h", des, mir),
       UVM_NONE)
 
-    regmodel.transfer_count.read(status, rdata,UVM_BACKDOOR);
+    regmodel.transfer_count.read(status, rdata);
     des = regmodel.transfer_count.get();
     mir = regmodel.transfer_count.get_mirrored_value();
 
@@ -418,7 +418,7 @@ class descriptor_reg_seq extends uvm_sequence;
       UVM_LOW)
 
     // READ
-    regmodel.descriptor_addr.read(status, rdata,UVM_BACKDOOR);
+    regmodel.descriptor_addr.read(status, rdata);
     des = regmodel.descriptor_addr.get();
     mir = regmodel.descriptor_addr.get_mirrored_value();
 
@@ -460,7 +460,7 @@ class config_reg_seq extends uvm_sequence;
       UVM_LOW)
 
     // READ
-    regmodel.conf.read(status, rdata,UVM_BACKDOOR);
+    regmodel.conf.read(status, rdata);
     des = regmodel.conf.get();
     mir = regmodel.conf.get_mirrored_value();
 
@@ -503,7 +503,7 @@ class error_status_reg_seq extends uvm_sequence;
 
 
     // READ
-    regmodel.error_status.read(status, rdata,UVM_BACKDOOR);
+    regmodel.error_status.read(status, rdata);
     des = regmodel.error_status.get();
     mir = regmodel.error_status.get_mirrored_value();
 
