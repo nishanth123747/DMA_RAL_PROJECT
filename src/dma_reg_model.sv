@@ -254,21 +254,51 @@ class mem_addr_reg extends uvm_reg;
 endclass
 //===================================================================
 
-
 class extra_info_reg extends uvm_reg;
   `uvm_object_utils(extra_info_reg)
 
   uvm_reg_field extra_info;
+  
+  covergroup extra_info_cov;
 
-  function new(string name="extra_info_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
+		option.per_instance = 1;
+
+    coverpoint extra_info.value[31:0]
+		{
+			bins low1 = {[0:63]};
+			bins high1  = {[128:255]};
+		}
+
+	endgroup
+
+
+ function new(string name="mem_addr_reg");
+    super.new(name, 32, UVM_CVR_FIELD_VALS);
+
+    if (has_coverage(UVM_CVR_FIELD_VALS))
+      extra_info_cov = new();
   endfunction
+
 
   function void build();
     extra_info = uvm_reg_field::type_id::create("extra_info");
     extra_info.configure(this, 32, 0, "RW", 0, 0, 1, 1, 0);
   endfunction
+  
+  virtual function void sample(uvm_reg_data_t data,
+                               uvm_reg_data_t byte_en,
+                               bit is_read,
+                               uvm_reg_map map);
+      extra_info_cov.sample();
+  endfunction
+
+  virtual function void sample_values();
+    super.sample_values();
+     extra_info_cov.sample();
+  endfunction
+
 endclass
+//===========================================================
 
 
 class status_reg extends uvm_reg;
