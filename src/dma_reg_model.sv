@@ -76,8 +76,7 @@ class ctrl_reg extends uvm_reg;
 
 		coverpoint w_count.value[15:8]
 		{
-			bins low = {[0:127]};
-			bins high  = {[128:255]};
+			bins low = {[0:255]};
 		}
 
 		coverpoint io_mem.value[16]
@@ -130,33 +129,64 @@ class io_addr_reg extends uvm_reg;
   `uvm_object_utils(io_addr_reg)
 
   uvm_reg_field io_addr;
+  
+  covergroup io_addr_cov;
+
+		option.per_instance = 1;
+
+		coverpoint io_addr.value[7:0]
+		{
+          bins low1 = {[0:127]};
+			bins high1  = {[128:255]};
+		}
+
+		coverpoint io_addr.value[15:8]
+		{
+          bins low2 = {[0:127]};
+			bins hig2  = {[128:255]};
+		}
+
+		coverpoint io_addr.value[23:16]
+		{
+          bins low3 = {[0:127]};
+			bins high3  = {[128:255]};
+		}
+
+		coverpoint io_addr.value[31:24]
+		{
+          bins low4 = {[0:127]};
+			bins high4  = {[128:255]};
+		}
+
+	endgroup
+
 
   function new(string name="io_addr_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
+    super.new(name, 32, UVM_CVR_FIELD_VALS);
+
+    if (has_coverage(UVM_CVR_FIELD_VALS))
+      io_addr_cov = new();
   endfunction
+
 
   function void build();
     io_addr = uvm_reg_field::type_id::create("io_addr");
     io_addr.configure(this, 32, 0, "RW", 0, 0, 1, 1, 0);
   endfunction
-endclass
-
-class mem_addr_reg extends uvm_reg;
-  `uvm_object_utils(mem_addr_reg)
-
-  uvm_reg_field mem_addr;
-
-  function new(string name="mem_addr_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
+  
+  virtual function void sample(uvm_reg_data_t data,
+                               uvm_reg_data_t byte_en,
+                               bit is_read,
+                               uvm_reg_map map);
+      io_addr_cov.sample();
   endfunction
 
-  function void build();
-    mem_addr = uvm_reg_field::type_id::create("mem_addr");
-    mem_addr.configure(this, 32, 0, "RW", 0, 0, 1, 1, 0);
-  endfunction
+  virtual function void sample_values();
+    super.sample_values();
+      io_addr_cov.sample();
+  endfunction  
 endclass
-
-
+//-------------------------------------------------------------------------------
 class extra_info_reg extends uvm_reg;
   `uvm_object_utils(extra_info_reg)
 
