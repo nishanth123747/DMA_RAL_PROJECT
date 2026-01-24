@@ -17,7 +17,7 @@ class dma_driver extends uvm_driver #(dma_seq_item);
 task run_phase(uvm_phase phase);
 
   super.run_phase(phase);
-  repeat(3) @(vif.drv_cb);
+ // repeat(3) @(vif.drv_cb);
 
   forever begin
     seq_item_port.get_next_item(req);
@@ -30,27 +30,44 @@ endtask
   task drive(dma_seq_item tx);
 
 
-  vif.drv_cb.wr_en <= tx.wr_en;
+ /* vif.drv_cb.wr_en <= tx.wr_en;
   vif.drv_cb.rd_en <= tx.rd_en;
   vif.drv_cb.addr  <= tx.addr;
   vif.drv_cb.wdata <= tx.wdata;
 
-  // `uvm_info(get_type_name(),
-  //           $sformatf("DRIVING WRITE: wr=%0b rd=%0b addr=0x%08h wdata=0x%08h",
-  //             tx.wr_en, tx.rd_en, tx.addr, tx.wdata),
-  //   UVM_LOW)
+   `uvm_info(get_type_name(),
+             $sformatf("DRIVING WRITE: wr=%0b rd=%0b addr=0x%08h wdata=0x%08h",
+               tx.wr_en, tx.rd_en, tx.addr, tx.wdata),
+     UVM_LOW)
 
   @(vif.drv_cb);
-
+    
+  vif.drv_cb.wr_en <= 0;
+  vif.drv_cb.rd_en <= 0;
+  vif.drv_cb.addr  <= '0;
+  vif.drv_cb.wdata <= '0;
+    
   if (tx.rd_en) begin
     repeat(2)@(posedge vif.clk)
     tx.rdata = vif.drv_cb.rdata;
 
-    // `uvm_info(get_type_name(),
-    //           $sformatf("DRIVER READ : wr=%0d,rd=%0d,addr=0x%08h rdata=0x%08h",tx.wr_en,tx.rd_en,
-    //             tx.addr, tx.rdata),
-    //   UVM_LOW)
+     `uvm_info(get_type_name(),
+               $sformatf("DRIVER READ : wr=%0d,rd=%0d,addr=0x%08h rdata=0x%08h",tx.wr_en,tx.rd_en,
+                 tx.addr, tx.rdata),
+       UVM_LOW)
   end
+ */
+    @(posedge vif.clk);
+
+		vif.drv_cb.wr_en <= tx.wr_en;
+		vif.drv_cb.rd_en <= tx.rd_en;
+		vif.drv_cb.wdata <= tx.wdata;
+		vif.drv_cb.addr  <= tx.addr;
+//     `uvm_info(get_type_name,$sformatf("Driver: wr:%0b | rd:%0b || data:%0d | addr:%0d", tx.wr_en, tx.rd_en, tx.wdata, tx.addr), UVM_MEDIUM)
+
+		repeat(2) @(posedge vif.clk);
+
+		tx.rdata = vif.drv_cb.rdata;   
 endtask
 
 
