@@ -194,16 +194,65 @@ class mem_addr_reg extends uvm_reg;
   `uvm_object_utils(mem_addr_reg)
 
   uvm_reg_field mem_addr;
+  
+  covergroup mem_addr_cov;
 
+		option.per_instance = 1;
+
+		coverpoint mem_addr.value[7:0]
+		{
+          bins low1 = {[0:127]};
+			bins high1  = {[128:255]};
+		}
+
+		coverpoint mem_addr.value[15:8]
+		{
+          bins lowe2 = {[0:127]};
+			bins high2  = {[128:255]};
+		}
+
+		coverpoint mem_addr.value[23:16]
+		{
+          bins lowe3 = {[0:127]};
+			bins high3  = {[128:255]};
+		}
+
+		coverpoint mem_addr.value[31:24]
+		{
+          bins low4 = {[0:127]};
+			bins high4  = {[128:255]};
+		}
+
+	endgroup
+
+
+  
   function new(string name="mem_addr_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
+    super.new(name, 32, UVM_CVR_FIELD_VALS);
+
+    if (has_coverage(UVM_CVR_FIELD_VALS))
+      mem_addr_cov = new();
   endfunction
 
   function void build();
     mem_addr = uvm_reg_field::type_id::create("mem_addr");
     mem_addr.configure(this, 32, 0, "RW", 0, 0, 1, 1, 0);
   endfunction
+  
+  virtual function void sample(uvm_reg_data_t data,
+                               uvm_reg_data_t byte_en,
+                               bit is_read,
+                               uvm_reg_map map);
+      mem_addr_cov.sample();
+  endfunction
+
+  virtual function void sample_values();
+    super.sample_values();
+      mem_addr_cov.sample();
+  endfunction
+  
 endclass
+//===================================================================
 
 
 class extra_info_reg extends uvm_reg;
