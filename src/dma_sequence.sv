@@ -172,14 +172,13 @@ class ctrl_reg_seq extends uvm_sequence;
   task body();
     uvm_status_e   status;
     uvm_reg_data_t des, mir;
-    bit [31:0] wdata,rdata;
-
+    uvm_reg_data_t wdata, rdata;
 
     repeat (5) begin
-      wdata = $urandom;
-    end
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
-    regmodel.ctrl.write(status, wdata);
+      // WRITE 
+      regmodel.ctrl.write(status, wdata);
 
       des = regmodel.ctrl.get();
       mir = regmodel.ctrl.get_mirrored_value();
@@ -189,20 +188,22 @@ class ctrl_reg_seq extends uvm_sequence;
                   des, mir),
         UVM_LOW)
 
+      // READ
       regmodel.ctrl.read(status, rdata);
 
       des = regmodel.ctrl.get();
       mir = regmodel.ctrl.get_mirrored_value();
 
       `uvm_info(get_type_name(),
-        $sformatf("CTRL READ: DES=0x%08h MIR=0x%08h RDATA=0x%08h",
+        $sformatf("CTRL READ : DES=0x%08h MIR=0x%08h RDATA=0x%08h",
                   des, mir, rdata),
-                UVM_LOW)
+        UVM_LOW)
       regmodel.ctrl.mirror(status, UVM_CHECK);
 
     end
   endtask
 endclass
+
 
 
  //------------------------------------------------------
