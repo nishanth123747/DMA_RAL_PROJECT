@@ -35,10 +35,10 @@ endtask
   vif.drv_cb.addr  <= tx.addr;
   vif.drv_cb.wdata <= tx.wdata;
 
-  `uvm_info(get_type_name(),
-            $sformatf("DRIVING WRITE: wr=%0b rd=%0b addr=0x%08h wdata=0x%08h",
-              tx.wr_en, tx.rd_en, tx.addr, tx.wdata),
-    UVM_LOW)
+  // `uvm_info(get_type_name(),
+  //           $sformatf("DRIVING WRITE: wr=%0b rd=%0b addr=0x%08h wdata=0x%08h",
+  //             tx.wr_en, tx.rd_en, tx.addr, tx.wdata),
+  //   UVM_LOW)
 
   @(vif.drv_cb);
 
@@ -46,10 +46,10 @@ endtask
     repeat(2)@(posedge vif.clk)
     tx.rdata = vif.drv_cb.rdata;
 
-    `uvm_info(get_type_name(),
-              $sformatf("DRIVER READ : wr=%0d,rd=%0d,addr=0x%08h rdata=0x%08h",tx.wr_en,tx.rd_en,
-                tx.addr, tx.rdata),
-      UVM_LOW)
+    // `uvm_info(get_type_name(),
+    //           $sformatf("DRIVER READ : wr=%0d,rd=%0d,addr=0x%08h rdata=0x%08h",tx.wr_en,tx.rd_en,
+    //             tx.addr, tx.rdata),
+    //   UVM_LOW)
   end
 endtask
 
