@@ -129,7 +129,7 @@ class mem_addr_seq extends uvm_sequence;
   endfunction
 
   task body();
-   uvm_reg_data_t wdata, rdata;
+   uvm_reg_data_t des,mir, wdata, rdata;
 
     repeat (2) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
@@ -224,7 +224,7 @@ class intr_reg_seq extends uvm_sequence;
 
   task body();
     uvm_status_e status;
-  uvm_reg_data_t wdata, rdata;
+ uvm_reg_data_t des,mir, wdata, rdata;
 
     repeat (2) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
@@ -268,7 +268,7 @@ endclass
 
   task body();
     uvm_status_e status;
-    uvm_reg_data_t wdata, rdata;
+    uvm_reg_data_t des,mir, wdata, rdata;
 
     repeat (5) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
