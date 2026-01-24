@@ -56,11 +56,47 @@ class ctrl_reg extends uvm_reg;
   uvm_reg_field start_dma;   // [0]
   uvm_reg_field w_count;     // [15:1]
   uvm_reg_field io_mem;     
-  uvm_reg_field reserved;    
+  uvm_reg_field reserved;
+  
+  
+  covergroup ctrl_cov;
+
+		option.per_instance = 1;
+
+		coverpoint start_dma.value[0]
+		{
+			bins start_dma_val = {0,1};
+		}
+
+		coverpoint w_count.value[7:1]
+		{
+			bins low = {[0:63]};
+            bins high  = {[64:127]};
+		}
+
+		coverpoint w_count.value[15:8]
+		{
+			bins lower = {[0:63]};
+			bins mid  = {[64:127]};
+			bins high  = {[128:255]};
+		}
+
+		coverpoint io_mem.value[16]
+		{
+			bins io_mem_val = {0,1};
+		}
+
+	endgroup
+
+
 
   function new(string name="ctrl_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
+    super.new(name, 32, UVM_CVR_FIELD_VALS);
+
+    if (has_coverage(UVM_CVR_FIELD_VALS))
+      ctrl_cov = new();
   endfunction
+
 
   function void build();
     start_dma = uvm_reg_field::type_id::create("start_dma");
@@ -75,8 +111,21 @@ class ctrl_reg extends uvm_reg;
     reserved = uvm_reg_field::type_id::create("reserved");
     reserved.configure(this, 15, 17, "RO", 0, 0, 1, 0, 0);
   endfunction
-endclass
+  
+   virtual function void sample(uvm_reg_data_t data,
+                               uvm_reg_data_t byte_en,
+                               bit is_read,
+                               uvm_reg_map map);
+      ctrl_cov.sample();
+  endfunction
 
+  virtual function void sample_values();
+    super.sample_values();
+      ctrl_cov.sample();
+  endfunction
+  
+endclass
+///--------------------------------------------------------------------------
 
 class io_addr_reg extends uvm_reg;
   `uvm_object_utils(io_addr_reg)
