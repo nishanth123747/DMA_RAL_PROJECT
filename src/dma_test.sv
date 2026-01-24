@@ -21,6 +21,31 @@ class dma_test extends uvm_test;
 endclass
 
 
+class dma_reset_test extends dma_test;
+  `uvm_component_utils(dma_reset_test)
+
+  dma_reset_seq rst_seq;
+
+  function new(string name="dma_reset_test", uvm_component parent);
+    super.new(name, parent);
+  endfunction
+
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    rst_seq = dma_reset_seq::type_id::create("rst_seq");
+  endfunction
+
+  task run_phase(uvm_phase phase);
+    phase.raise_objection(this);
+
+    rst_seq.regbk = env.regmodel;
+    rst_seq.start(env.dma_agnt.sqr);
+
+    phase.drop_objection(this);
+  endtask
+endclass
+
+
 //----------------------------------------------------------------------
 // MEM_ADDR Test
 //----------------------------------------------------------------------
