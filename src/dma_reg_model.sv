@@ -5,20 +5,21 @@ class intr_reg extends uvm_reg;
   uvm_reg_field intr_status;  
   uvm_reg_field intr_mask;
 
-  covergroup intr_cov;
-    option.per_instance = 1;
+covergroup intr_cov;
+  option.per_instance = 1;
 
-    coverpoint intr_status.value[0] {
-      bins not_done = {0};
-      bins done     = {1};
-    }
+  coverpoint intr_status.value[0] {
+    bins not_done = {0};
+    bins done     = {1};
+  }
 
-    coverpoint intr_mask.value {
-      bins none_enabled = {16'h0000};
-      bins all_enabled  = {16'hFFFF};
-      bins partial      = default;
-    }
-  endgroup
+  coverpoint intr_mask.value {
+    bins disabled = {16'h0000};
+    bins enabled  = {[16'h0001 : 16'hFFFF]};
+  }
+
+endgroup
+
 
   function new(string name="intr_reg");
     super.new(name, 32, UVM_CVR_FIELD_VALS);
@@ -49,6 +50,7 @@ class intr_reg extends uvm_reg;
 
 endclass
 
+//=============================================================
 
 class ctrl_reg extends uvm_reg;
   `uvm_object_utils(ctrl_reg)
