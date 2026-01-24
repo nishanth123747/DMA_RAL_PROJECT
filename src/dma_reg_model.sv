@@ -8,14 +8,12 @@ class intr_reg extends uvm_reg;
 covergroup intr_cov;
   option.per_instance = 1;
 
-  coverpoint intr_status.value[0] {
-    bins not_done = {0};
-    bins done     = {1};
+  coverpoint intr_status.value {
+    bins in_status = {0,1};
   }
 
   coverpoint intr_mask.value {
-    bins disabled = {16'h0000};
-    bins enabled  = {[16'h0001 : 16'hFFFF]};
+    bins it_mask  = {[16'h0000 : 16'hFFFF]};
   }
 
 endgroup
