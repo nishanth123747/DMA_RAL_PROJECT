@@ -170,36 +170,68 @@ class ctrl_reg_seq extends uvm_sequence;
   endfunction
 
   task body();
-    uvm_status_e status;
+    uvm_status_e   status;
     uvm_reg_data_t des, mir, rdata;
 
-    // WRITE
-    // regmodel.ctrl.write(status, 32'h0000_ABCD);//self clear to 1 so dut wil get abcc
-  //  assert(regmodel.ctrl.randomize());
+    // Repeat CTRL access 5 times
+    repeat (5) begin
 
-   // regmodel.ctrl.write(status, regmodel.ctrl.get());
+      // ----------------------------------
+      // Randomize CTRL register legally
+      // ----------------------------------
+      if (!regmodel.ctrl.randomize() with {
+            // start_dma is self-clearing → allow only 1 during write
+            start_dma == 1'b1;
 
-    regmodel.ctrl.write(status, 32'h0000_AAAA);
-    des = regmodel.ctrl.get();
-    mir = regmodel.ctrl.get_mirrored_value();
+            // reasonable transfer count
+            w_count inside {[1:1024]};
 
-    `uvm_info(get_type_name(),
-      $sformatf("CTRL WRITE: DES=0x%08h MIR=0x%08h", des, mir),
-      UVM_NONE)
+            // allow both directions
+            io_mem inside {0,1};
+          }) begin
+        `uvm_error(get_type_name(), "CTRL randomization failed")
+      end
 
-    // READ
-    regmodel.ctrl.read(status, rdata);
-    des = regmodel.ctrl.get();
-    mir = regmodel.ctrl.get_mirrored_value();
+      // ----------------------------------
+      // WRITE (frontdoor)
+      // ----------------------------------
+      regmodel.ctrl.write(status, regmodel.ctrl.get());
 
-    `uvm_info(get_type_name(),
-      $sformatf("CTRL READ : DES=0x%08h MIR=0x%08h RDATA=0x%08h",
-                des, mir, rdata),
-      UVM_NONE)
+      des = regmodel.ctrl.get();
+      mir = regmodel.ctrl.get_mirrored_value();
 
-    regmodel.ctrl.mirror(status, UVM_CHECK);
+      `uvm_info(get_type_name(),
+        $sformatf("CTRL WRITE (RAND): DES=0x%08h MIR=0x%08h",
+                  des, mir),
+        UVM_LOW)
+
+      // ----------------------------------
+      // READ
+      // ----------------------------------
+      regmodel.ctrl.read(status, rdata);
+
+      des = regmodel.ctrl.get();
+      mir = regmodel.ctrl.get_mirrored_value();
+
+      `uvm_info(get_type_name(),
+        $sformatf("CTRL READ  (RAND): DES=0x%08h MIR=0x%08h RDATA=0x%08h",
+                  des, mir, rdata),
+        UVM_LOW)
+
+      // ----------------------------------
+      // Handle self-clearing start_dma bit
+      // ----------------------------------
+      regmodel.ctrl.start_dma.predict(0);
+
+      // ----------------------------------
+      // Mirror check
+      // ----------------------------------
+      regmodel.ctrl.mirror(status, UVM_CHECK);
+
+    end
   endtask
 endclass
+
 
  //------------------------------------------------------
  // INTR 
