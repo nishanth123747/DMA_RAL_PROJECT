@@ -1,4 +1,5 @@
 
+
  `include "dma_interface.sv"
 `include "dma_pkg.sv"
 `include "dma_design.sv"
@@ -22,7 +23,7 @@ module tb;
     uvm_config_db#(virtual dma_reg_if)::set(null, "*", "vif", vif);
 
     rst_n = 0;
-    #10;
+    #20;
     rst_n = 1;
   end
 
@@ -32,11 +33,10 @@ module tb;
   end
 
   initial begin
-    run_test("dma_reg_test");
+    run_test("dma_regression_test");
+  //  run_test("dma_mem_addr_test");
+    // run_test("dma_ctrl_test");
   end
 
 endmodule
-
-
-
 
