@@ -171,61 +171,36 @@ class ctrl_reg_seq extends uvm_sequence;
 
   task body();
     uvm_status_e   status;
-    uvm_reg_data_t des, mir, rdata;
+    uvm_reg_data_t des, mir, i
+    bit [31:0] wdata,rdata;
 
-    // Repeat CTRL access 5 times
+
     repeat (5) begin
-
+      wdata = $urandom;
+    end
       // ----------------------------------
       // Randomize CTRL register legally
       // ----------------------------------
-      if (!regmodel.ctrl.randomize() with {
-            // start_dma is self-clearing → allow only 1 during write
-            start_dma == 1'b1;
 
-            // reasonable transfer count
-            w_count inside {[1:1024]};
-
-            // allow both directions
-            io_mem inside {0,1};
-          }) begin
-        `uvm_error(get_type_name(), "CTRL randomization failed")
-      end
-
-      // ----------------------------------
-      // WRITE (frontdoor)
-      // ----------------------------------
-      regmodel.ctrl.write(status, regmodel.ctrl.get());
+    regmodel.ctrl.write(status, wdata);
 
       des = regmodel.ctrl.get();
       mir = regmodel.ctrl.get_mirrored_value();
 
       `uvm_info(get_type_name(),
-        $sformatf("CTRL WRITE (RAND): DES=0x%08h MIR=0x%08h",
+        $sformatf("CTRL WRITE: DES=0x%08h MIR=0x%08h",
                   des, mir),
         UVM_LOW)
 
-      // ----------------------------------
-      // READ
-      // ----------------------------------
       regmodel.ctrl.read(status, rdata);
 
       des = regmodel.ctrl.get();
       mir = regmodel.ctrl.get_mirrored_value();
 
       `uvm_info(get_type_name(),
-        $sformatf("CTRL READ  (RAND): DES=0x%08h MIR=0x%08h RDATA=0x%08h",
+        $sformatf("CTRL READ: DES=0x%08h MIR=0x%08h RDATA=0x%08h",
                   des, mir, rdata),
-        UVM_LOW)
-
-      // ----------------------------------
-      // Handle self-clearing start_dma bit
-      // ----------------------------------
-      regmodel.ctrl.start_dma.predict(0);
-
-      // ----------------------------------
-      // Mirror check
-      // ----------------------------------
+                UVM_LOW)
       regmodel.ctrl.mirror(status, UVM_CHECK);
 
     end
