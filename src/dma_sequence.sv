@@ -175,7 +175,11 @@ class ctrl_reg_seq extends uvm_sequence;
 
     // WRITE
     // regmodel.ctrl.write(status, 32'h0000_ABCD);//self clear to 1 so dut wil get abcc
-    regmodel.ctrl.write(status, 32'h0000_AAAA);
+    assert(regmodel.ctrl.randomize());
+
+    regmodel.ctrl.write(status, regmodel.ctrl.get());
+
+  //  regmodel.ctrl.write(status, 32'h0000_AAAA);
     des = regmodel.ctrl.get();
     mir = regmodel.ctrl.get_mirrored_value();
 
