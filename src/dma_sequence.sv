@@ -178,7 +178,7 @@ class ctrl_reg_seq extends uvm_sequence;
     uvm_reg_data_t des, mir;
     uvm_reg_data_t wdata, rdata;
 
-    repeat (2) begin
+    repeat (5) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
       // WRITE 
