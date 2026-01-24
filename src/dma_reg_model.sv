@@ -76,8 +76,8 @@ class ctrl_reg extends uvm_reg;
 
 		coverpoint w_count.value[15:8]
 		{
-			bins val = {[0:255]};
-		
+          bins lower = {[0:127]};
+			bins high  = {[128:255]};
 		}
 
 		coverpoint io_mem.value[16]
@@ -252,7 +252,7 @@ class mem_addr_reg extends uvm_reg;
   endfunction
   
 endclass
-//===================================================================
+
 
 class extra_info_reg extends uvm_reg;
   `uvm_object_utils(extra_info_reg)
@@ -296,9 +296,9 @@ class extra_info_reg extends uvm_reg;
     super.sample_values();
      extra_info_cov.sample();
   endfunction
-
+  
+  
 endclass
-//===========================================================
 
 
 class status_reg extends uvm_reg;
@@ -311,10 +311,50 @@ class status_reg extends uvm_reg;
   uvm_reg_field current_state;
   uvm_reg_field fifo_level;
   uvm_reg_field reserved;
+  
+  covergroup status_cov;
 
-  function new(string name="status_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
-  endfunction
+		option.per_instance = 1;
+
+		coverpoint busy.value[0]
+		{
+			bins busy_val = {0,1};
+		}
+
+		coverpoint done.value[1]
+		{
+			bins done_val = {0,1};
+		}
+
+		coverpoint error.value[2]
+		{
+			bins error_val = {0,1};
+		}
+
+		coverpoint paused.value[3]
+		{
+			bins paused_val = {0,1};
+		}
+
+		coverpoint current_state.value[7:4]
+		{
+			bins current_state_val = {0,1,2,3};
+		}
+
+		coverpoint fifo_level.value[15:8]
+		{
+          bins lower_w_count1 = {[0:127]};
+			bins high_w_count2  = {[128:255]};
+		}
+
+	endgroup
+
+	function new ( string name = "status_reg");
+		super.new(name,32,UVM_CVR_FIELD_VALS);
+		if(has_coverage(UVM_CVR_FIELD_VALS))
+			status_cov = new();
+	endfunction
+
 
   function void build();
     busy = uvm_reg_field::type_id::create("busy");
@@ -337,7 +377,21 @@ class status_reg extends uvm_reg;
 
     reserved = uvm_reg_field::type_id::create("reserved");
     reserved.configure(this, 16, 16, "RO", 0, 0, 1, 0, 0);
+       
   endfunction
+  
+    virtual function void sample(uvm_reg_data_t data,
+                               uvm_reg_data_t byte_en,
+                               bit is_read,
+                               uvm_reg_map map);
+      status_cov.sample();
+  endfunction
+
+  virtual function void sample_values();
+    super.sample_values();
+     status_cov.sample();
+  endfunction
+ 
 endclass
 
 
@@ -345,15 +399,43 @@ class transfer_count_reg extends uvm_reg;
   `uvm_object_utils(transfer_count_reg)
 
   uvm_reg_field transfer_count;
+  
+  covergroup transfer_count_cov;
 
-  function new(string name="transfer_count_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
-  endfunction
+		option.per_instance = 1;
+
+    coverpoint transfer_count.value[31:0]
+		{
+          bins b1 = {[0:255]};
+		}
+
+  endgroup
+  
+  
+function new ( string name = "transfer_count_reg");
+		super.new(name,32,UVM_CVR_FIELD_VALS);
+		if(has_coverage(UVM_CVR_FIELD_VALS))
+			transfer_count_cov = new();
+	endfunction
 
   function void build();
     transfer_count = uvm_reg_field::type_id::create("transfer_count");
     transfer_count.configure(this, 32, 0, "RO", 0, 0, 1, 0, 0);
   endfunction
+  
+  virtual function void sample(uvm_reg_data_t data,
+                               uvm_reg_data_t byte_en,
+                               bit is_read,
+                               uvm_reg_map map);
+      transfer_count_cov.sample();
+  endfunction
+
+  virtual function void sample_values();
+    super.sample_values();
+      transfer_count_cov.sample();
+  endfunction
+ 
+  
 endclass
 
 
@@ -361,15 +443,43 @@ class descriptor_addr_reg extends uvm_reg;
   `uvm_object_utils(descriptor_addr_reg)
 
   uvm_reg_field descriptor_addr;
+  
+  covergroup descriptor_addr_cov;
 
-  function new(string name="descriptor_addr_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
-  endfunction
+		option.per_instance = 1;
+
+    coverpoint descriptor_addr.value[31:0]
+		{
+          bins lower = {[0:127]};
+			bins high  = {[128:255]};
+		}
+
+	
+	endgroup
+
+function new ( string name = "descriptor_addr_reg");
+		super.new(name,32,UVM_CVR_FIELD_VALS);
+		if(has_coverage(UVM_CVR_FIELD_VALS))
+			descriptor_addr_cov = new();
+	endfunction
 
   function void build();
     descriptor_addr = uvm_reg_field::type_id::create("descriptor_addr");
     descriptor_addr.configure(this, 32, 0, "RW", 0, 0, 1, 1, 0);
   endfunction
+  
+virtual function void sample(uvm_reg_data_t data,
+                               uvm_reg_data_t byte_en,
+                               bit is_read,
+                               uvm_reg_map map);
+      descriptor_addr_cov.sample();
+  endfunction
+
+  virtual function void sample_values();
+    super.sample_values();
+    descriptor_addr_cov.sample();
+  endfunction  
+  
 endclass
 
 
@@ -385,10 +495,60 @@ class error_status_reg extends uvm_reg;
   uvm_reg_field reserved;
   uvm_reg_field error_code;
   uvm_reg_field error_addr_offset;
+  
+  
+  covergroup error_status_cov;
 
-  function new(string name="error_status_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
-  endfunction
+		option.per_instance = 1;
+
+		coverpoint bus_error.value[0]
+		{
+			bins bus_error_val = {0,1};
+		}
+
+		coverpoint timeout_error.value[1]
+		{
+			bins timeout_error_val = {0,1};
+		}
+
+		coverpoint alignment_error.value[2]
+		{
+			bins alignment_error_val = {0,1};
+		}
+
+		coverpoint overflow_error.value[3]
+		{
+			bins overflow_error_val = {0,1};
+		}
+
+		coverpoint underflow_error.value[4]
+		{
+			bins underflow_error_val = {0,1};
+		}
+
+		coverpoint error_code.value[15:8]
+		{
+          bins error_code = {[0:255]};
+		}
+	
+		coverpoint error_addr_offset.value[23:16]
+		{
+          bins error_offset = {[0:255]};
+		}
+
+    coverpoint error_addr_offset.value[31:24]
+		{
+          bins error_code_offset2 = {[0:255]};
+		}
+
+	endgroup
+
+	function new ( string name = "error_status_reg");
+		super.new(name,32,UVM_CVR_FIELD_VALS);
+		if(has_coverage(UVM_CVR_FIELD_VALS))
+			error_status_cov = new();
+	endfunction
+
 
   function void build();
     bus_error = uvm_reg_field::type_id::create("bus_error");
@@ -415,6 +575,18 @@ class error_status_reg extends uvm_reg;
     error_addr_offset = uvm_reg_field::type_id::create("error_addr_offset");
     error_addr_offset.configure(this, 16, 16, "RO", 0, 0, 1, 0, 0);
   endfunction
+  virtual function void sample(uvm_reg_data_t data,
+                               uvm_reg_data_t byte_en,
+                               bit is_read,
+                               uvm_reg_map map);
+      error_status_cov.sample();
+  endfunction
+
+  virtual function void sample_values();
+    super.sample_values();
+     error_status_cov.sample();
+  endfunction  
+  
 endclass
 
 
@@ -429,10 +601,50 @@ class config_reg extends uvm_reg;
   uvm_reg_field data_width;
   uvm_reg_field descriptor_mode;
   uvm_reg_field reserved;
+  
+  covergroup configure_reg_cov;
 
-  function new(string name="config_reg");
-    super.new(name, 32, UVM_NO_COVERAGE);
-  endfunction
+		option.per_instance = 1;
+
+		coverpoint priority_f.value[1:0]
+		{
+			bins priority_val = {0,1,2,3};
+		}
+
+		coverpoint auto_restart.value[2]
+		{
+			bins auto_restart = {0,1};
+		}
+
+		coverpoint interrupt_enable.value[3]
+		{
+			bins interrupt_enable_val = {0,1};
+		}
+
+		coverpoint burst_size.value[5:4]
+		{
+			bins burst_size_val = {0,1,2,3};
+		}
+
+		coverpoint data_width.value[7:6]
+		{
+			bins data_width_val = {0,1,2,3};
+		}
+
+		coverpoint descriptor_mode.value[8]
+		{
+			bins decriptor_mode_val = {0,1};
+		}
+
+	endgroup
+
+	function new ( string name = "dma_config_reg");
+		super.new(name,32,UVM_CVR_FIELD_VALS);
+		if(has_coverage(UVM_CVR_FIELD_VALS))
+			configure_reg_cov= new();
+	endfunction
+
+
 
   function void build();
     priority_f = uvm_reg_field::type_id::create("priority");
@@ -456,5 +668,18 @@ class config_reg extends uvm_reg;
     reserved = uvm_reg_field::type_id::create("reserved");
     reserved.configure(this, 23, 9, "RO", 0, 0, 1, 0, 0);
   endfunction
+  
+  virtual function void sample(uvm_reg_data_t data,
+                               uvm_reg_data_t byte_en,
+                               bit is_read,
+                               uvm_reg_map map);
+      configure_reg_cov.sample();
+  endfunction
+
+  virtual function void sample_values();
+    super.sample_values();
+     configure_reg_cov.sample();
+  endfunction  
+  
 endclass
 
