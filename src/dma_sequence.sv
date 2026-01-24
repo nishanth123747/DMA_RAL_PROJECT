@@ -129,6 +129,7 @@ class mem_addr_seq extends uvm_sequence;
   endfunction
 
   task body();
+      uvm_status_e   status;
    uvm_reg_data_t des,mir, wdata, rdata;
 
     repeat (2) begin
