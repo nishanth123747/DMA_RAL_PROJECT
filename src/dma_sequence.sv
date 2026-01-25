@@ -534,9 +534,10 @@ class error_status_reg_seq extends uvm_sequence;
     repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
     //WRITE
-    #10;
+    //#10;
+        regmodel.error_status.read(status, rdata);
         regmodel.error_status.poke(status, wdata);
-  // regmodel.error_status.write(status, 32'hFFFF_FFFF);
+      // regmodel.error_status.write(status, wdata);
     des = regmodel.error_status.get();
     mir = regmodel.error_status.get_mirrored_value();
 
