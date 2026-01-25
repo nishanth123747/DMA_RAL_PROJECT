@@ -534,9 +534,9 @@ class error_status_reg_seq extends uvm_sequence;
     repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
     //WRITE
-    //#10;
-      //  regmodel.error_status.poke(status, wdata);
-   regmodel.error_status.write(status, 32'hFFFF_FFFF);
+    #10;
+        regmodel.error_status.poke(status, wdata);
+  // regmodel.error_status.write(status, 32'hFFFF_FFFF);
     des = regmodel.error_status.get();
     mir = regmodel.error_status.get_mirrored_value();
 
@@ -577,34 +577,9 @@ class dma_corner_case_seq extends uvm_sequence;
 
     repeat (`SIZE) begin
 
-//       //-----------------------------------------
-//       // LINE 254 : DEFAULT CASE READ
-//       //-----------------------------------------
-//       uvm_reg_item req;
-//       req = uvm_reg_item::type_id::create("req");
-
-//       req.kind   = UVM_READ;
-//       req.offset = 32'h500;   // INVALID ADDRESS (FIX)
-//       req.status = status;
-
-//       start_item(req);
-//       finish_item(req);
-
-//       //-----------------------------------------
-//       // Start DMA
-//       //-----------------------------------------
-//       wdata = 32'h0000_0005;  // start_dma=1, w_count=2
-//       regmodel.ctrl.write(status, wdata);
-
-//       //-----------------------------------------
-//       // Wait until done
-//       //-----------------------------------------
-//       do begin
-//         regmodel.status.read(status, rdata);
-//       end while (rdata[1] == 1'b0);
 
       //-----------------------------------------
-      // LINE 302 : Restart DMA
+      //  Restart DMA
       //-----------------------------------------
       wdata = 32'h0000_0001;
       regmodel.ctrl.write(status, wdata);
