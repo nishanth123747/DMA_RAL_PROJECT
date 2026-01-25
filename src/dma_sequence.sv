@@ -1,3 +1,4 @@
+`include "defines.sv"
 class dma_reset_seq extends uvm_sequence;
   `uvm_object_utils(dma_reset_seq)
 
@@ -132,7 +133,7 @@ class mem_addr_seq extends uvm_sequence;
       uvm_status_e   status;
    uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (2) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
     // WRITE
@@ -178,7 +179,7 @@ class ctrl_reg_seq extends uvm_sequence;
     uvm_reg_data_t des, mir;
     uvm_reg_data_t wdata, rdata;
 
-    repeat (5) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
       // WRITE 
@@ -227,7 +228,7 @@ class intr_reg_seq extends uvm_sequence;
     uvm_status_e status;
  uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (2) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
     // WRITE
@@ -271,7 +272,7 @@ endclass
     uvm_status_e status;
     uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (5) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
       regmodel.io_addr.write(status, wdata);
@@ -313,7 +314,7 @@ class extra_info_seq extends uvm_sequence;
     uvm_status_e status;
      uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (2) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
       // regmodel.extra_info.read(status, rdata);
     // regmodel.extra_info.poke(status, 32'h0000_ABCD);
@@ -355,7 +356,7 @@ endclass
     uvm_status_e status;
      uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (2) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
    // regmodel.status.read(status, rdata);
     // regmodel.status.poke(status, 32'h0000_ABCD);
@@ -398,7 +399,7 @@ endclass
     uvm_status_e status;
      uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (2) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
     // regmodel.transfer_count.read(status, rdata);
     // regmodel.transfer_count.poke(status, 32'h0000_ABCD);
@@ -440,7 +441,7 @@ class descriptor_reg_seq extends uvm_sequence;
     uvm_status_e   status;
    uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (2) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
     // WRITE
@@ -486,7 +487,7 @@ class config_reg_seq extends uvm_sequence;
     uvm_status_e   status;
      uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (2) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
     // WRITE
@@ -530,7 +531,7 @@ class error_status_reg_seq extends uvm_sequence;
     uvm_status_e   status;
     uvm_reg_data_t des,mir, wdata, rdata;
 
-    repeat (2) begin
+    repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
     //WRITE
     //#10;
