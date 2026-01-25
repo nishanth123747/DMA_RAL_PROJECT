@@ -518,18 +518,30 @@ endclass
 //------------------------------------------
 //ERROR STATUS
 //-------------------------------------------------
-  wdata = $urandom_range(0, 32'hFFFF_FFFF);
+class error_status_reg_seq extends uvm_sequence;
+  `uvm_object_utils(error_status_reg_seq)
+
+  dma_reg_block regmodel;
+
+  function new(string name="error_status_reg_seq");
+    super.new(name);
+  endfunction
+
+  task body();
+    uvm_status_e   status;
+    uvm_reg_data_t des,mir, wdata, rdata;
+
+    repeat (`SIZE) begin
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
     //WRITE
     #10;
        regmodel.error_status.poke(status, wdata);
   // regmodel.error_status.write(status, 32'hFFFF_FFFF);
-regmodel.error_status.bus_error.write(status,1'h1);           
-regmodel.error_status.timeout_error.write(status,1'h1);
-regmodel.error_status.alignment_error.write(status,1'h1);        
-regmodel.error_status.overflow_error.write(status,1'h1);       
-regmodel.error_status.underflow_error.write(status,1'h1);
+      regmodel.error_status.bus_error.write(status,1'h1);            regmodel.error_status.timeout_error.write(status,1'h1);
+      regmodel.error_status.alignment_error.write(status,1'h1);        regmodel.error_status.overflow_error.write(status,1'h1);       regmodel.error_status.underflow_error.write(status,1'h1);
     des = regmodel.error_status.get();
     mir = regmodel.error_status.get_mirrored_value();
+
     `uvm_info(get_type_name(),
               $sformatf("ERROR_STATUS WRITE: DES=0x%08h MIR=0x%08h",
                 des, mir),
@@ -567,9 +579,8 @@ class dma_corner_case_seq extends uvm_sequence;
 
     repeat (`SIZE) begin
 
-
       //-----------------------------------------
-      //  Restart DMA
+      // Restart DMA
       //-----------------------------------------
       wdata = 32'h0000_0001;
       regmodel.ctrl.write(status, wdata);
