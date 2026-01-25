@@ -76,8 +76,7 @@ class ctrl_reg extends uvm_reg;
 
 		coverpoint w_count.value[15:8]
 		{
-          bins lower = {[0:127]};
-			bins high  = {[128:255]};
+          bins count = {[0:255]};
 		}
 
 		coverpoint io_mem.value[16]
@@ -265,8 +264,7 @@ class extra_info_reg extends uvm_reg;
 
     coverpoint extra_info.value[31:0]
 		{
-			bins low1 = {[0:63]};
-			bins high1  = {[128:255]};
+			bins info = {[0:255]};
 		}
 
 	endgroup
@@ -450,8 +448,7 @@ class descriptor_addr_reg extends uvm_reg;
 
     coverpoint descriptor_addr.value[31:0]
 		{
-          bins lower = {[0:127]};
-			bins high  = {[128:255]};
+          bins desc= {[0:255]};
 		}
 
 	
