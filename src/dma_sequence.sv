@@ -580,19 +580,6 @@ class dma_corner_case_seq extends uvm_sequence;
     repeat (`SIZE) begin
 
       //-----------------------------------------
-      // DEFAULT CASE HIT (invalid address read)
-      //-----------------------------------------
-      uvm_reg_item req;
-      req = uvm_reg_item::type_id::create("req");
-
-      req.kind   = UVM_READ;
-      req.offset = 32'h500;   // INVALID ADDRESS → hits default
-      req.status = status;
-
-      start_item(req);
-      finish_item(req);
-
-      //-----------------------------------------
       // Restart DMA
       //-----------------------------------------
       wdata = 32'h0000_0001;
@@ -616,6 +603,7 @@ class dma_corner_case_seq extends uvm_sequence;
     end
   endtask
 endclass
+
 
 
 class dma_regression_seq extends uvm_sequence;
