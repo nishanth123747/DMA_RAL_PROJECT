@@ -341,8 +341,7 @@ class status_reg extends uvm_reg;
 
 		coverpoint fifo_level.value[15:8]
 		{
-          bins lower_w_count1 = {[0:127]};
-			bins high_w_count2  = {[128:255]};
+          bins lower_w_count1 = {[0:255]};
 		}
 
 	endgroup
