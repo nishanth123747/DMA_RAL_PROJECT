@@ -562,6 +562,72 @@ class error_status_reg_seq extends uvm_sequence;
   endtask
 endclass
 
+class dma_corner_case_seq extends uvm_sequence;
+  `uvm_object_utils(dma_corner_case_seq)
+
+  dma_reg_block regmodel;
+
+  function new(string name="dma_corner_case_seq");
+    super.new(name);
+  endfunction
+
+  task body();
+    uvm_status_e   status;
+    uvm_reg_data_t des, mir, wdata, rdata;
+
+    repeat (`SIZE) begin
+
+//       //-----------------------------------------
+//       // LINE 254 : DEFAULT CASE READ
+//       //-----------------------------------------
+//       uvm_reg_item req;
+//       req = uvm_reg_item::type_id::create("req");
+
+//       req.kind   = UVM_READ;
+//       req.offset = 32'h500;   // INVALID ADDRESS (FIX)
+//       req.status = status;
+
+//       start_item(req);
+//       finish_item(req);
+
+//       //-----------------------------------------
+//       // Start DMA
+//       //-----------------------------------------
+//       wdata = 32'h0000_0005;  // start_dma=1, w_count=2
+//       regmodel.ctrl.write(status, wdata);
+
+//       //-----------------------------------------
+//       // Wait until done
+//       //-----------------------------------------
+//       do begin
+//         regmodel.status.read(status, rdata);
+//       end while (rdata[1] == 1'b0);
+
+      //-----------------------------------------
+      // LINE 302 : Restart DMA
+      //-----------------------------------------
+      wdata = 32'h0000_0001;
+      regmodel.ctrl.write(status, wdata);
+
+      //-----------------------------------------
+      // Read STATUS
+      //-----------------------------------------
+      regmodel.status.read(status, rdata);
+
+      des = regmodel.status.get();
+      mir = regmodel.status.get_mirrored_value();
+
+      `uvm_info(get_type_name(),
+        $sformatf("STATUS AFTER RESTART: DES=0x%08h MIR=0x%08h RDATA=0x%08h",
+                  des, mir, rdata),
+        UVM_LOW)
+
+      regmodel.status.mirror(status, UVM_CHECK);
+
+    end
+  endtask
+endclass
+
 
 
 class dma_regression_seq extends uvm_sequence;
@@ -577,6 +643,7 @@ class dma_regression_seq extends uvm_sequence;
   descriptor_reg_seq         des_seq;
   config_reg_seq             con_seq;
   error_status_reg_seq       err_seq;
+  dma_corner_case_seq        corner_seq;
 
   dma_reg_block regbk;
 
@@ -596,7 +663,7 @@ class dma_regression_seq extends uvm_sequence;
     des_seq   = descriptor_reg_seq::type_id::create("des_seq");
     con_seq   = config_reg_seq::type_id::create("con_seq");
     err_seq   = error_status_reg_seq::type_id::create("err_seq");
-    
+    corner_seq= dma_corner_case_seq::type_id::create("corner_seq");   
     reset_seq.regbk = regbk;
     mem_seq.regmodel   = regbk;
     ct_seq.regmodel    = regbk;
@@ -608,6 +675,7 @@ class dma_regression_seq extends uvm_sequence;
     des_seq.regmodel   = regbk;
     con_seq.regmodel   = regbk;
     err_seq.regmodel   = regbk;
+    corner_seq.regmodel = regbk;
     
     reset_seq.start(m_sequencer);
     mem_seq.start(m_sequencer);
@@ -620,7 +688,7 @@ class dma_regression_seq extends uvm_sequence;
     des_seq.start(m_sequencer);
     con_seq.start(m_sequencer);
     err_seq.start(m_sequencer);
-
+    corner_seq.start(m_sequencer);
   endtask
 endclass
  
