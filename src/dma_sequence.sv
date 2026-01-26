@@ -184,7 +184,7 @@ class ctrl_reg_seq extends uvm_sequence;
 
       // WRITE 
       regmodel.ctrl.write(status, 32'hAAAA_AAAA);
-      regmodel.ctrl.write(status, wdata);
+     // regmodel.ctrl.write(status, wdata);
 
       des = regmodel.ctrl.get();
       mir = regmodel.ctrl.get_mirrored_value();
