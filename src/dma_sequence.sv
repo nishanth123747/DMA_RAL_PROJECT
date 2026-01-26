@@ -534,8 +534,8 @@ class error_status_reg_seq extends uvm_sequence;
     repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
     //WRITE
-    #10;
-       regmodel.error_status.poke(status, wdata);
+   // #10;
+       regmodel.error_status.write(status, wdata);
   // regmodel.error_status.write(status, 32'hFFFF_FFFF);
     //  regmodel.error_status.bus_error.write(status,1'h1);           
      // regmodel.error_status.timeout_error.write(status,1'h1);
