@@ -1,1 +1,1 @@
-`define SIZE 10
+`define SIZE 1
