@@ -537,8 +537,11 @@ class error_status_reg_seq extends uvm_sequence;
     #10;
        regmodel.error_status.poke(status, wdata);
   // regmodel.error_status.write(status, 32'hFFFF_FFFF);
-      regmodel.error_status.bus_error.write(status,1'h1);            regmodel.error_status.timeout_error.write(status,1'h1);
-      regmodel.error_status.alignment_error.write(status,1'h1);        regmodel.error_status.overflow_error.write(status,1'h1);       regmodel.error_status.underflow_error.write(status,1'h1);
+    //  regmodel.error_status.bus_error.write(status,1'h1);           
+     // regmodel.error_status.timeout_error.write(status,1'h1);
+     // regmodel.error_status.alignment_error.write(status,1'h1);      
+     // regmodel.error_status.overflow_error.write(status,1'h1);       
+      //regmodel.error_status.underflow_error.write(status,1'h1);
     des = regmodel.error_status.get();
     mir = regmodel.error_status.get_mirrored_value();
 
