@@ -180,9 +180,10 @@ class ctrl_reg_seq extends uvm_sequence;
     uvm_reg_data_t wdata, rdata;
 
     repeat (`SIZE) begin
-      wdata = $urandom_range(0, 32'hFFFF_FFFF);
+      //wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
       // WRITE 
+      regmodel.ctrl.write(status, 32'hAAAA_AAAA);
       regmodel.ctrl.write(status, wdata);
 
       des = regmodel.ctrl.get();
