@@ -1,0 +1,154 @@
+# vsim -vopt work.tb -voptargs="+acc=npr" -assertdebug -l simulation.log -coverage -c -do "coverage save -onexit -assert -directive -cvg -codeAll coverage.ucdb; run -all; exit" 
+# Start time: 09:47:22 on Jan 27,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  Questa Sim
+# //  Version 10.6c linux Jul 25 2017
+# //
+# //  Copyright 1991-2017 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.dma_reg_if(fast)
+# Loading mtiUvm.uvm_pkg
+# Loading work.dma_pkg(fast)
+# Loading work.dma_top_sv_unit(fast)
+# Loading work.tb(fast)
+# Loading work.dma_reg_if(fast)
+# Loading work.dma_design(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading /tools/mentor/questasim_10.6c/questasim/uvm-1.1d/linux/uvm_dpi.so
+# coverage save -onexit -assert -directive -cvg -codeAll coverage.ucdb
+#  run -all
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(215) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(217) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test dma_regression_test...
+# UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+# -------------------------------------------------------------------------
+# Name                       Type                               Size  Value
+# -------------------------------------------------------------------------
+# uvm_test_top               dma_regression_test                -     @471 
+#   env                      dma_env                            -     @478 
+#     cov                    dma_coverage                       -     @590 
+#       analysis_imp         uvm_analysis_imp                   -     @597 
+#     dma_agnt               dma_agent                          -     @489 
+#       drv                  dma_driver                         -     @605 
+#         rsp_port           uvm_analysis_port                  -     @620 
+#         seq_item_port      uvm_seq_item_pull_port             -     @612 
+#       mon                  dma_monitor                        -     @737 
+#         ap                 uvm_analysis_port                  -     @745 
+#       sqr                  dma_sequencer                      -     @628 
+#         rsp_export         uvm_analysis_export                -     @635 
+#         seq_item_export    uvm_seq_item_pull_imp              -     @729 
+#         arbitration_queue  array                              0     -    
+#         lock_queue         array                              0     -    
+#         num_last_reqs      integral                           32    'd1  
+#         num_last_rsps      integral                           32    'd1  
+#     predictor              uvm_reg_predictor #(dma_seq_item)  -     @567 
+#       bus_in               uvm_analysis_imp                   -     @574 
+#       reg_ap               uvm_analysis_port                  -     @582 
+# -------------------------------------------------------------------------
+# 
+# UVM_INFO dma_sequence.sv(16) @ 0: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] <------------ RESET SEQUENCE STARTED ----------->
+# UVM_INFO dma_sequence.sv(28) @ 25: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] INTR reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(37) @ 55: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] CTRL reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(46) @ 85: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] IO_ADDR reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(55) @ 115: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] MEM_ADDR reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(64) @ 145: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] EXTRA_INFO reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(73) @ 175: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] STATUS reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(82) @ 205: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] TRANSFER_COUNT reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(91) @ 235: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] DESCRIPTOR_ADDR reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(100) @ 265: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] CONFIG reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(109) @ 295: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] ERROR_STATUS reset value = 0x00000000
+# UVM_INFO dma_sequence.sv(113) @ 295: uvm_test_top.env.dma_agnt.sqr@@reset_seq [dma_reset_seq] <------------ RESET SEQUENCE ENDED ----------->
+# UVM_INFO dma_sequence.sv(146) @ 325: uvm_test_top.env.dma_agnt.sqr@@mem_seq [mem_addr_seq] MEM_ADDR WRITE: DES=0x04d866b4 MIR=0x04d866b4
+# UVM_INFO dma_sequence.sv(156) @ 355: uvm_test_top.env.dma_agnt.sqr@@mem_seq [mem_addr_seq] MEM_ADDR READ : DES=0x04d866b4 MIR=0x04d866b4 RDATA=0x04d866b4
+# UVM_INFO dma_sequence.sv(195) @ 415: uvm_test_top.env.dma_agnt.sqr@@ct_seq [ctrl_reg_seq] CTRL WRITE: DES=0x00009615 MIR=0x00009615
+# UVM_INFO dma_sequence.sv(206) @ 445: uvm_test_top.env.dma_agnt.sqr@@ct_seq [ctrl_reg_seq] CTRL READ : DES=0x00009615 MIR=0x00009615 RDATA=0x00009615
+# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2890) @ 475: reporter [RegModel] Register "regmodel.ctrl" value read from DUT (0x0000000000009614) does not match mirrored value (0x0000000000009615)
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2909) @ 475: reporter [RegModel] Field start_dma (regmodel.ctrl[0:0]) mismatch read=1'h0 mirrored=1'h1 
+# UVM_INFO dma_sequence.sv(242) @ 505: uvm_test_top.env.dma_agnt.sqr@@int_seq [intr_reg_seq] INTR WRITE: DES=0x23590000 MIR=0x23590000
+# UVM_INFO dma_sequence.sv(252) @ 535: uvm_test_top.env.dma_agnt.sqr@@int_seq [intr_reg_seq] INTR READ : DES=0x23590000 MIR=0x23590000 RDATA=0x23590000
+# UVM_INFO dma_sequence.sv(285) @ 595: uvm_test_top.env.dma_agnt.sqr@@io_seq [io_addr_seq] IO_ADDR WRITE: DES=0x00693104 MIR=0x00693104
+# UVM_INFO dma_sequence.sv(294) @ 625: uvm_test_top.env.dma_agnt.sqr@@io_seq [io_addr_seq] IO_ADDR READ : DES=0x00693104 MIR=0x00693104 RDATA=0x00693104
+# UVM_INFO dma_sequence.sv(328) @ 685: uvm_test_top.env.dma_agnt.sqr@@info_seq [extra_info_seq] EXTRA_INFO WRITE: DES=0x4b3e9b0d MIR=0x4b3e9b0d
+# UVM_INFO dma_sequence.sv(337) @ 715: uvm_test_top.env.dma_agnt.sqr@@info_seq [extra_info_seq] EXTRA_INFO READ : DES=0x4b3e9b0d MIR=0x4b3e9b0d RDATA=0x4b3e9b0d
+# UVM_INFO dma_sequence.sv(370) @ 775: uvm_test_top.env.dma_agnt.sqr@@stat_seq [status_reg_seq] STATUS WRITE: DES=0x508401ce MIR=0x508401ce
+# UVM_INFO dma_sequence.sv(379) @ 805: uvm_test_top.env.dma_agnt.sqr@@stat_seq [status_reg_seq] STATUS READ : DES=0x00010e0e MIR=0x00010e0e RDATA=0x00010e0e
+# UVM_INFO dma_sequence.sv(413) @ 865: uvm_test_top.env.dma_agnt.sqr@@trans_seq [transfer_count_reg_seq] TRANSFER_COUNT WRITE: DES=0x0000abcd MIR=0x0000abcd
+# UVM_INFO dma_sequence.sv(422) @ 895: uvm_test_top.env.dma_agnt.sqr@@trans_seq [transfer_count_reg_seq] TRANSFER COUNT READ : DES=0x0000abcd MIR=0x0000abcd RDATA=0x0000abcd
+# UVM_INFO dma_sequence.sv(456) @ 955: uvm_test_top.env.dma_agnt.sqr@@des_seq [descriptor_reg_seq] DESCRIPTOR_ADDR WRITE: DES=0x3f6279c1 MIR=0x3f6279c1
+# UVM_INFO dma_sequence.sv(466) @ 985: uvm_test_top.env.dma_agnt.sqr@@des_seq [descriptor_reg_seq] DESCRIPTOR_ADDR READ : DES=0x3f6279c1 MIR=0x3f6279c1 RDATA=0x3f6279c1
+# UVM_INFO dma_sequence.sv(502) @ 1045: uvm_test_top.env.dma_agnt.sqr@@con_seq [config_reg_seq] CONFIG WRITE: DES=0x00000157 MIR=0x00000157
+# UVM_INFO dma_sequence.sv(512) @ 1075: uvm_test_top.env.dma_agnt.sqr@@con_seq [config_reg_seq] CONFIG READ : DES=0x00000157 MIR=0x00000157 RDATA=0x00000157
+# UVM_INFO dma_sequence.sv(552) @ 1115: uvm_test_top.env.dma_agnt.sqr@@err_seq [error_status_reg_seq] ERROR_STATUS WRITE: DES=0x8da86113 MIR=0x8da86113
+# UVM_INFO dma_sequence.sv(564) @ 1145: uvm_test_top.env.dma_agnt.sqr@@err_seq [error_status_reg_seq] ERROR_STATUS READ : DES=0x8da86113 MIR=0x8da86113 RDATA=0x8da86113
+# UVM_INFO dma_sequence.sv(603) @ 1235: uvm_test_top.env.dma_agnt.sqr@@corner_seq [dma_corner_case_seq] STATUS AFTER RESTART: DES=0x0001088d MIR=0x0001088d RDATA=0x0001088d
+# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2890) @ 1265: reporter [RegModel] Register "regmodel.status" value read from DUT (0x000000000000000e) does not match mirrored value (0x000000000001088d)
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2909) @ 1265: reporter [RegModel] Field busy (regmodel.status[0:0]) mismatch read=1'h0 mirrored=1'h1 
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2909) @ 1265: reporter [RegModel] Field done (regmodel.status[1:1]) mismatch read=1'h1 mirrored=1'h0 
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2909) @ 1265: reporter [RegModel] Field current_state (regmodel.status[7:4]) mismatch read=4'h0 mirrored=4'h8 
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2909) @ 1265: reporter [RegModel] Field fifo_level (regmodel.status[15:8]) mismatch read=8'h0 mirrored=8'h8 
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2909) @ 1265: reporter [RegModel] Field reserved (regmodel.status[31:16]) mismatch read=16'h0 mirrored=16'h1 
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1268) @ 1265: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO dma_coverage.sv(81) @ 1265: uvm_test_top.env.cov [dma_coverage] DMA INPUT  COVERAGE = 96.43%
+# UVM_INFO dma_coverage.sv(85) @ 1265: uvm_test_top.env.cov [dma_coverage] DMA OUTPUT COVERAGE = 100.00%
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :   46
+# UVM_WARNING :    0
+# UVM_ERROR :    2
+# UVM_FATAL :    0
+# ** Report counts by id
+# [Questa UVM]     2
+# [RNTST]     1
+# [RegModel]     8
+# [TEST_DONE]     1
+# [UVMTOP]     1
+# [config_reg_seq]     2
+# [ctrl_reg_seq]     2
+# [descriptor_reg_seq]     2
+# [dma_corner_case_seq]     1
+# [dma_coverage]     2
+# [dma_reset_seq]    12
+# [error_status_reg_seq]     2
+# [extra_info_seq]     2
+# [intr_reg_seq]     2
+# [io_addr_seq]     2
+# [mem_addr_seq]     2
+# [status_reg_seq]     2
+# [transfer_count_reg_seq]     2
+# ** Note: $finish    : /tools/mentor/questasim_10.6c/questasim/linux/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 1265 ns  Iteration: 66  Instance: /tb
+# Saving coverage database on exit...
+# End time: 09:47:26 on Jan 27,2026, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0

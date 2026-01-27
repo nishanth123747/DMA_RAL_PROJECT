@@ -180,11 +180,11 @@ class ctrl_reg_seq extends uvm_sequence;
     uvm_reg_data_t wdata, rdata;
 
     repeat (`SIZE) begin
-      //wdata = $urandom_range(0, 32'hFFFF_FFFF);
+      wdata = $urandom_range(0, 32'hFFFF_FFFF);
 
       // WRITE 
-      regmodel.ctrl.write(status, 32'hAAAA_AAAA);
-     // regmodel.ctrl.write(status, wdata);
+      //regmodel.ctrl.write(status, 32'hAAAA_AAAA);
+     regmodel.ctrl.write(status, wdata);
 
       des = regmodel.ctrl.get();
       mir = regmodel.ctrl.get_mirrored_value();
@@ -359,9 +359,9 @@ endclass
 
     repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
-   // regmodel.status.read(status, rdata);
-    // regmodel.status.poke(status, 32'h0000_ABCD);
-      regmodel.status.write(status, wdata);
+    regmodel.status.read(status, rdata);
+     regmodel.status.poke(status, wdata);
+     // regmodel.status.write(status, wdata);
     des = regmodel.status.get();
     mir = regmodel.status.get_mirrored_value();
 
@@ -402,9 +402,9 @@ endclass
 
     repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
-    // regmodel.transfer_count.read(status, rdata);
-    // regmodel.transfer_count.poke(status, 32'h0000_ABCD);
-      regmodel.transfer_count.write(status, wdata);
+     regmodel.transfer_count.read(status, rdata);
+     regmodel.transfer_count.poke(status, 32'h0000_ABCD);
+    //  regmodel.transfer_count.write(status, wdata);
     des = regmodel.transfer_count.get();
     mir = regmodel.transfer_count.get_mirrored_value();
 
@@ -535,8 +535,8 @@ class error_status_reg_seq extends uvm_sequence;
     repeat (`SIZE) begin
       wdata = $urandom_range(0, 32'hFFFF_FFFF);
     //WRITE
-   // #10;
-       regmodel.error_status.write(status, wdata);
+    #10;
+       regmodel.error_status.poke(status, wdata);
   // regmodel.error_status.write(status, 32'hFFFF_FFFF);
     //  regmodel.error_status.bus_error.write(status,1'h1);           
      // regmodel.error_status.timeout_error.write(status,1'h1);

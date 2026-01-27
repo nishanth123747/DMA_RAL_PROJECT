@@ -18,6 +18,7 @@ class dma_env extends uvm_env;
     dma_agnt = dma_agent::type_id::create("dma_agnt", this);
 
     regmodel = dma_reg_block::type_id::create("regmodel", this);
+    regmodel.set_hdl_path_root("tb.DUT");
     regmodel.build();
     regmodel.lock_model();
     regmodel.reset();
